@@ -1,5 +1,6 @@
 import { computed, ref } from 'vue'
 import type { Product, ProductListResponse } from '../types/product'
+import type { Ref } from 'vue'
 import { fetchProducts as fetchProductsApi, searchProducts as searchProductsApi } from '../services/api'
 
 /**
@@ -80,19 +81,19 @@ export function useProducts() {
  * Composable for filtering products by term and category
  */
 export function useFilteredProducts(
-  products: Product[],
-  searchTerm: string,
-  category: string
+  products: Ref<Product[]>,
+  searchTerm: Ref<string>,
+  category: Ref<string>
 ) {
   return computed(() => {
-    const normalizedTerm = searchTerm.trim().toLowerCase()
-    return products.filter((product) => {
+    const normalizedTerm = searchTerm.value.trim().toLowerCase()
+    return products.value.filter((product) => {
       const matchesTerm = normalizedTerm
         ? [product.title, product.description, product.brand].some((value) =>
             value.toLowerCase().includes(normalizedTerm)
           )
         : true
-      const matchesCategory = category ? product.category === category : true
+      const matchesCategory = category.value ? product.category === category.value : true
       return matchesTerm && matchesCategory
     })
   })

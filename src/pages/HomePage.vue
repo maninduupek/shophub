@@ -53,7 +53,7 @@ const { products, isLoading, error, fetchProducts, categories } = useProducts()
 const searchTerm = ref('')
 const selectedCategory = ref('')
 
-const filteredProducts = useFilteredProducts(products, searchTerm, selectedCategory)
+const filteredProducts = useFilteredProducts(products.value, searchTerm.value, selectedCategory.value)
 
 onMounted(() => {
   fetchProducts()
