@@ -17,11 +17,26 @@
       <div class="mb-4 flex items-center justify-between gap-4 rounded-3xl bg-white p-5 shadow-sm">
         <div>
           <h2 class="text-lg font-semibold text-slate-900">Products</h2>
-          <p class="mt-1 text-sm text-slate-600">Showing {{ filteredProducts.length }} of {{ products.length }} items.</p>
+          <p class="mt-1 text-sm text-slate-600" v-if="!isLoading">
+            Showing {{ filteredProducts.length }} of {{ products.length }} items.
+          </p>
+          <p class="mt-1 text-sm text-slate-600" v-else>Loading products...</p>
         </div>
       </div>
 
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div v-if="isLoading" class="rounded-2xl bg-slate-100 p-8 text-center">
+        <p class="text-slate-700">Loading products...</p>
+      </div>
+
+      <div v-else-if="error" class="rounded-2xl border border-red-200 bg-red-50 p-4">
+        <p class="text-sm text-red-700">{{ error }}</p>
+      </div>
+
+      <div v-else-if="filteredProducts.length === 0" class="rounded-2xl bg-slate-100 p-8 text-center">
+        <p class="text-slate-700">No products found. Try adjusting your filters.</p>
+      </div>
+
+      <div v-else class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <ProductCard v-for="product in filteredProducts" :key="product.id" :product="product" />
       </div>
     </section>
@@ -29,32 +44,18 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue'
-import { fetchProducts } from '../services/api'
-import type { Product } from '../types/product'
+import { onMounted, ref } from 'vue'
+import { useProducts, useFilteredProducts } from '../composables/useProducts'
 import ProductCard from '../components/ProductCard.vue'
 import FilterBar from '../components/FilterBar.vue'
 
-const products = ref<Product[]>([])
-const categories = ref<string[]>([])
+const { products, isLoading, error, fetchProducts, categories } = useProducts()
 const searchTerm = ref('')
 const selectedCategory = ref('')
 
-const loadProducts = async () => {
-  const response = await fetchProducts()
-  products.value = response.products
-  categories.value = Array.from(new Set(response.products.map((product) => product.category))).sort()
-}
+const filteredProducts = useFilteredProducts(products, searchTerm, selectedCategory)
 
-const filteredProducts = computed(() => {
-  return products.value.filter((product) => {
-    const matchesTerm = [product.title, product.description].some((field) =>
-      field.toLowerCase().includes(searchTerm.value.toLowerCase())
-    )
-    const matchesCategory = selectedCategory.value ? product.category === selectedCategory.value : true
-    return matchesTerm && matchesCategory
-  })
+onMounted(() => {
+  fetchProducts()
 })
-
-onMounted(loadProducts)
 </script>
