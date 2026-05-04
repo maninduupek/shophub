@@ -1,24 +1,100 @@
 <template>
-  <article class="group rounded-3xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
-    <router-link :to="`/product/${product.id}`" class="block">
-      <img :src="product.thumbnail" :alt="product.title" class="h-48 w-full rounded-2xl object-cover" />
-      <div class="mt-4 space-y-2">
-        <div class="flex items-center justify-between gap-4">
-          <h3 class="text-lg font-semibold text-slate-900">{{ product.title }}</h3>
-          <span class="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-700">{{ product.category }}</span>
+  <article class="group relative rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300">
+    <!-- Discount Badge -->
+    <div v-if="discount > 0" class="absolute -top-2 -right-2 z-10 rounded-full bg-red-500 px-3 py-1 text-xs font-bold text-white shadow-lg">
+      -{{ discount }}%
+    </div>
+
+    <!-- Product Image -->
+    <div class="relative overflow-hidden rounded-xl bg-slate-100">
+      <img
+        :src="image"
+        :alt="title"
+        class="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+        @error="handleImageError"
+      />
+      <!-- Overlay on hover -->
+      <div class="absolute inset-0 bg-black bg-opacity-0 transition-all duration-300 group-hover:bg-opacity-10"></div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="mt-4 space-y-3">
+      <!-- Title -->
+      <h3 class="text-lg font-semibold text-slate-900 line-clamp-2 leading-tight group-hover:text-brand-600 transition-colors">
+        {{ title }}
+      </h3>
+
+      <!-- Rating -->
+      <div class="flex items-center gap-1">
+        <div class="flex items-center">
+          <svg
+            v-for="star in 5"
+            :key="star"
+            :class="[
+              'w-4 h-4',
+              star <= Math.floor(rating)
+                ? 'text-yellow-400 fill-current'
+                : star - 0.5 <= rating
+                ? 'text-yellow-400 fill-current'
+                : 'text-slate-300'
+            ]"
+            viewBox="0 0 20 20"
+          >
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
         </div>
-        <p class="text-sm text-slate-600 overflow-hidden text-ellipsis max-h-12">{{ product.description }}</p>
-        <div class="flex items-center justify-between text-sm font-semibold text-brand-700">
-          <span>${{ product.price }}</span>
-          <span>{{ product.rating.toFixed(1) }} ★</span>
-        </div>
+        <span class="text-sm text-slate-600 ml-1">{{ rating.toFixed(1) }}</span>
       </div>
-    </router-link>
+
+      <!-- Price -->
+      <div class="flex items-center gap-2">
+        <span class="text-xl font-bold text-slate-900">${{ price.toFixed(2) }}</span>
+        <span v-if="originalPrice && originalPrice > price" class="text-sm text-slate-500 line-through">
+          ${{ originalPrice.toFixed(2) }}
+        </span>
+      </div>
+
+      <!-- Action Button -->
+      <button
+        class="w-full rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-brand-700 hover:shadow-md active:scale-95"
+        @click="$emit('add-to-cart')"
+      >
+        Add to Cart
+      </button>
+    </div>
   </article>
 </template>
 
 <script lang="ts" setup>
-import type { Product } from '../types/product'
+interface Props {
+  title: string
+  price: number
+  image: string
+  rating: number
+  discount?: number
+  originalPrice?: number
+}
 
-const props = defineProps<{ product: Product }>()
+const props = withDefaults(defineProps<Props>(), {
+  discount: 0,
+  originalPrice: undefined
+})
+
+const emit = defineEmits<{
+  'add-to-cart': []
+}>()
+
+const handleImageError = (event: Event) => {
+  const img = event.target as HTMLImageElement
+  img.src = 'https://via.placeholder.com/300x200/f3f4f6/9ca3af?text=No+Image'
+}
 </script>
+
+<style scoped>
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>

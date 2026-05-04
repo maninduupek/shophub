@@ -37,7 +37,17 @@
       </div>
 
       <div v-else class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <ProductCard v-for="product in filteredProducts" :key="product.id" :product="product" />
+        <ProductCard
+          v-for="product in filteredProducts"
+          :key="product.id"
+          :title="product.title"
+          :price="product.price"
+          :image="product.thumbnail"
+          :rating="product.rating"
+          :discount="product.discountPercentage"
+          :original-price="product.price / (1 - product.discountPercentage / 100)"
+          @add-to-cart="handleAddToCart(product)"
+        />
       </div>
     </section>
   </div>
@@ -46,14 +56,23 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { useProducts, useFilteredProducts } from '../composables/useProducts'
+import { useCartStore } from '../store/cart'
+import type { Product } from '../types/product'
 import ProductCard from '../components/ProductCard.vue'
 import FilterBar from '../components/FilterBar.vue'
 
 const { products, isLoading, error, fetchProducts, categories } = useProducts()
+const cartStore = useCartStore()
 const searchTerm = ref('')
 const selectedCategory = ref('')
 
-const filteredProducts = useFilteredProducts(products.value, searchTerm.value, selectedCategory.value)
+const filteredProducts = useFilteredProducts(products, searchTerm, selectedCategory)
+
+const handleAddToCart = (product: Product) => {
+  cartStore.addItem(product)
+  // You could add a toast notification here
+  console.log(`Added ${product.title} to cart`)
+}
 
 onMounted(() => {
   fetchProducts()
