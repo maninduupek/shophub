@@ -36,7 +36,7 @@
         <p class="text-slate-700">No products found. Try adjusting your filters.</p>
       </div>
 
-      <div v-else class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div v-else class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <ProductCard
           v-for="product in filteredProducts"
           :key="product.id"
