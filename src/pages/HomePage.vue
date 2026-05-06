@@ -9,7 +9,7 @@
       :categories="categories"
       :initialTerm="searchTerm"
       :initialCategory="selectedCategory"
-      @update:term="searchTerm = $event"
+      @update:term="handleFilterBarSearch"
       @update:category="selectedCategory = $event"
     />
 
@@ -54,24 +54,55 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
-import { useProducts, useFilteredProducts } from '../composables/useProducts'
+import { onMounted, ref, watch, computed } from 'vue'
+import { useProducts } from '../composables/useProducts'
 import { useCartStore } from '../store/cart'
 import type { Product } from '../types/product'
 import ProductCard from '../components/ProductCard.vue'
 import FilterBar from '../components/FilterBar.vue'
 
-const { products, isLoading, error, fetchProducts, categories } = useProducts()
+interface Props {
+  globalSearchTerm?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  globalSearchTerm: ''
+})
+
+const { products, isLoading, error, fetchProducts, searchProducts, categories } = useProducts()
 const cartStore = useCartStore()
 const searchTerm = ref('')
 const selectedCategory = ref('')
 
-const filteredProducts = useFilteredProducts(products, searchTerm, selectedCategory)
+// Watch for global search term changes and perform API search
+watch(() => props.globalSearchTerm, async (newTerm) => {
+  if (newTerm) {
+    await searchProducts(newTerm)
+    searchTerm.value = newTerm // Also update local search term for FilterBar
+  } else {
+    await fetchProducts() // Reset to all products when search is cleared
+    searchTerm.value = ''
+  }
+})
+
+const filteredProducts = computed(() => {
+  // Only filter by category since search is handled by API
+  return selectedCategory.value ? products.value.filter(product => product.category === selectedCategory.value) : products.value
+})
 
 const handleAddToCart = (product: Product) => {
   cartStore.addItem(product)
   // You could add a toast notification here
   console.log(`Added ${product.title} to cart`)
+}
+
+const handleFilterBarSearch = async (term: string) => {
+  searchTerm.value = term
+  if (term.trim()) {
+    await searchProducts(term)
+  } else {
+    await fetchProducts()
+  }
 }
 
 onMounted(() => {

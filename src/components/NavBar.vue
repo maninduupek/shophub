@@ -147,6 +147,10 @@
 import { computed, ref } from 'vue'
 import { useCartStore } from '../store/cart'
 
+const emit = defineEmits<{
+  search: [query: string]
+}>()
+
 const cartStore = useCartStore()
 const searchQuery = ref('')
 const isMobileMenuOpen = ref(false)
@@ -157,8 +161,7 @@ const cartCount = computed(() => cartStore.itemCount)
 
 const handleSearch = () => {
   if (searchQuery.value.trim()) {
-    console.log('Search for:', searchQuery.value)
-    // Emit event or navigate with search query
+    emit('search', searchQuery.value.trim())
     searchQuery.value = ''
     showMobileSearch.value = false
   }
