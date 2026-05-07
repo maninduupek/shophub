@@ -2,54 +2,75 @@
   <div class="space-y-6">
     <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
       <h1 class="text-2xl font-semibold text-slate-900">Shop the latest products</h1>
-      <p class="mt-2 text-slate-600">Browse a curated list of DummyJSON products with search and category filtering.</p>
+      <p class="mt-2 text-slate-600">Browse a curated list of DummyJSON products with advanced filtering.</p>
     </section>
 
-    <FilterBar
-      :categories="categories"
-      :initialTerm="searchTerm"
-      :initialCategory="selectedCategory"
-      @update:term="handleFilterBarSearch"
-      @update:category="selectedCategory = $event"
-    />
+    <!-- Search Bar -->
+    <div class="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
+      <input
+        v-model="localSearchTerm"
+        type="search"
+        placeholder="Search products..."
+        class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+        @keydown.enter="handleFilterBarSearch(localSearchTerm)"
+      />
+    </div>
 
-    <section>
-      <div class="mb-4 flex items-center justify-between gap-4 rounded-3xl bg-white p-5 shadow-sm">
-        <div>
-          <h2 class="text-lg font-semibold text-slate-900">Products</h2>
-          <p class="mt-1 text-sm text-slate-600" v-if="!isLoading">
-            Showing {{ filteredProducts.length }} of {{ products.length }} items.
-          </p>
-          <p class="mt-1 text-sm text-slate-600" v-else>Loading products...</p>
-        </div>
-      </div>
-
-      <div v-if="isLoading" class="rounded-2xl bg-slate-100 p-8 text-center">
-        <p class="text-slate-700">Loading products...</p>
-      </div>
-
-      <div v-else-if="error" class="rounded-2xl border border-red-200 bg-red-50 p-4">
-        <p class="text-sm text-red-700">{{ error }}</p>
-      </div>
-
-      <div v-else-if="filteredProducts.length === 0" class="rounded-2xl bg-slate-100 p-8 text-center">
-        <p class="text-slate-700">No products found. Try adjusting your filters.</p>
-      </div>
-
-      <div v-else class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <ProductCard
-          v-for="product in filteredProducts"
-          :key="product.id"
-          :title="product.title"
-          :price="product.price"
-          :image="product.thumbnail"
-          :rating="product.rating"
-          :discount="product.discountPercentage"
-          :original-price="product.price / (1 - product.discountPercentage / 100)"
-          @add-to-cart="handleAddToCart(product)"
+    <!-- Two Column Layout: Sidebar + Products -->
+    <div class="grid gap-6 lg:grid-cols-[280px_1fr]">
+      <!-- Sidebar (Hidden on mobile) -->
+      <div class="hidden lg:block">
+        <FilterSidebar
+          :categories="categories"
+          :products="products"
+          :initial-category="selectedCategory"
+          @update:category="selectedCategory = $event"
+          @update:minPrice="minPrice = $event"
+          @update:maxPrice="maxPrice = $event"
+          @update:minRating="minRating = $event"
+          @update:inStock="inStockOnly = $event"
         />
       </div>
-    </section>
+
+      <!-- Products Section -->
+      <section class="space-y-4">
+        <div class="flex items-center justify-between gap-4 rounded-3xl bg-white p-5 shadow-sm">
+          <div>
+            <h2 class="text-lg font-semibold text-slate-900">Products</h2>
+            <p class="mt-1 text-sm text-slate-600" v-if="!isLoading">
+              Showing {{ filteredProducts.length }} of {{ products.length }} items.
+            </p>
+            <p class="mt-1 text-sm text-slate-600" v-else>Loading products...</p>
+          </div>
+        </div>
+
+        <div v-if="isLoading" class="rounded-2xl bg-slate-100 p-8 text-center">
+          <p class="text-slate-700">Loading products...</p>
+        </div>
+
+        <div v-else-if="error" class="rounded-2xl border border-red-200 bg-red-50 p-4">
+          <p class="text-sm text-red-700">{{ error }}</p>
+        </div>
+
+        <div v-else-if="filteredProducts.length === 0" class="rounded-2xl bg-slate-100 p-8 text-center">
+          <p class="text-slate-700">No products found. Try adjusting your filters.</p>
+        </div>
+
+        <div v-else class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+          <ProductCard
+            v-for="product in filteredProducts"
+            :key="product.id"
+            :title="product.title"
+            :price="product.price"
+            :image="product.thumbnail"
+            :rating="product.rating"
+            :discount="product.discountPercentage"
+            :original-price="product.price / (1 - product.discountPercentage / 100)"
+            @add-to-cart="handleAddToCart(product)"
+          />
+        </div>
+      </section>
+    </div>
   </div>
 </template>
 
@@ -59,7 +80,7 @@ import { useProducts } from '../composables/useProducts'
 import { useCartStore } from '../store/cart'
 import type { Product } from '../types/product'
 import ProductCard from '../components/ProductCard.vue'
-import FilterBar from '../components/FilterBar.vue'
+import FilterSidebar from '../components/FilterSidebar.vue'
 
 interface Props {
   globalSearchTerm?: string
@@ -71,33 +92,49 @@ const props = withDefaults(defineProps<Props>(), {
 
 const { products, isLoading, error, fetchProducts, searchProducts, categories } = useProducts()
 const cartStore = useCartStore()
-const searchTerm = ref('')
+const localSearchTerm = ref('')
 const selectedCategory = ref('')
+const minPrice = ref(0)
+const maxPrice = ref(1000)
+const minRating = ref(0)
+const inStockOnly = ref(false)
 
 // Watch for global search term changes and perform API search
 watch(() => props.globalSearchTerm, async (newTerm) => {
   if (newTerm) {
     await searchProducts(newTerm)
-    searchTerm.value = newTerm // Also update local search term for FilterBar
+    localSearchTerm.value = newTerm
   } else {
-    await fetchProducts() // Reset to all products when search is cleared
-    searchTerm.value = ''
+    await fetchProducts()
+    localSearchTerm.value = ''
   }
 })
 
 const filteredProducts = computed(() => {
-  // Only filter by category since search is handled by API
-  return selectedCategory.value ? products.value.filter(product => product.category === selectedCategory.value) : products.value
+  return products.value.filter((product) => {
+    // Category filter
+    const categoryMatch = !selectedCategory.value || product.category === selectedCategory.value
+    
+    // Price filter
+    const priceMatch = product.price >= minPrice.value && product.price <= maxPrice.value
+    
+    // Rating filter
+    const ratingMatch = product.rating >= minRating.value
+    
+    // Stock filter
+    const stockMatch = !inStockOnly.value || product.stock > 0
+    
+    return categoryMatch && priceMatch && ratingMatch && stockMatch
+  })
 })
 
 const handleAddToCart = (product: Product) => {
   cartStore.addItem(product)
-  // You could add a toast notification here
   console.log(`Added ${product.title} to cart`)
 }
 
 const handleFilterBarSearch = async (term: string) => {
-  searchTerm.value = term
+  localSearchTerm.value = term
   if (term.trim()) {
     await searchProducts(term)
   } else {
