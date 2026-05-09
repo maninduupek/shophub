@@ -5,8 +5,8 @@
       -{{ discount }}%
     </div>
 
-    <!-- Product Image -->
-    <div class="relative overflow-hidden rounded-xl bg-slate-100">
+    <!-- Product Image - Clickable Link to Detail Page -->
+    <router-link :to="`/product/${productId}`" class="block relative overflow-hidden rounded-xl bg-slate-100 group-hover:cursor-pointer">
       <img
         :src="image"
         :alt="title"
@@ -15,14 +15,16 @@
       />
       <!-- Overlay on hover -->
       <div class="absolute inset-0 bg-black bg-opacity-0 transition-all duration-300 group-hover:bg-opacity-10"></div>
-    </div>
+    </router-link>
 
     <!-- Product Info -->
     <div class="mt-4 space-y-3">
-      <!-- Title -->
-      <h3 class="text-lg font-semibold text-slate-900 line-clamp-2 leading-tight group-hover:text-brand-600 transition-colors">
-        {{ title }}
-      </h3>
+      <!-- Title - Clickable Link to Detail Page -->
+      <router-link :to="`/product/${productId}`" class="block hover:text-brand-600 transition-colors">
+        <h3 class="text-lg font-semibold text-slate-900 line-clamp-2 leading-tight group-hover:text-brand-600 transition-colors">
+          {{ title }}
+        </h3>
+      </router-link>
 
       <!-- Rating -->
       <div class="flex items-center gap-1">
@@ -57,7 +59,7 @@
       <!-- Action Button -->
       <button
         class="w-full rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-brand-700 hover:shadow-md active:scale-95"
-        @click="$emit('add-to-cart')"
+        @click.stop="$emit('add-to-cart')"
       >
         Add to Cart
       </button>
@@ -67,6 +69,7 @@
 
 <script lang="ts" setup>
 interface Props {
+  productId: number
   title: string
   price: number
   image: string
@@ -89,12 +92,3 @@ const handleImageError = (event: Event) => {
   img.src = 'https://via.placeholder.com/300x200/f3f4f6/9ca3af?text=No+Image'
 }
 </script>
-
-<style scoped>
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-</style>

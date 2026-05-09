@@ -60,6 +60,7 @@
           <ProductCard
             v-for="product in filteredProducts"
             :key="product.id"
+            :product-id="product.id"
             :title="product.title"
             :price="product.price"
             :image="product.thumbnail"
