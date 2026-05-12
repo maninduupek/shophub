@@ -6,12 +6,12 @@
     </section>
 
     <!-- Search Bar -->
-    <div class="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
+    <div class="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm transition-all duration-300 hover:shadow-md">
       <input
         v-model="localSearchTerm"
         type="search"
         placeholder="Search products..."
-        class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+        class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition-all duration-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 focus:shadow-lg"
         @keydown.enter="handleFilterBarSearch(localSearchTerm)"
       />
     </div>
@@ -56,7 +56,7 @@
           <p class="text-slate-700">No products found. Try adjusting your filters.</p>
         </div>
 
-        <div v-else class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+        <div v-else class="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           <ProductCard
             v-for="product in filteredProducts"
             :key="product.id"

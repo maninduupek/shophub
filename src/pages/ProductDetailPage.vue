@@ -4,7 +4,7 @@
     <div class="flex items-center gap-2">
       <button
         @click="goBack"
-        class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+        class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition-all duration-300 hover:bg-slate-100 hover:border-slate-300 hover:shadow-md active:scale-95"
       >
         ← Back to Products
       </button>
@@ -33,11 +33,11 @@
         <!-- Product Images -->
         <section class="space-y-4">
           <!-- Main Image -->
-          <div class="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm overflow-hidden">
+          <div class="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg">
             <img
               :src="selectedImage"
               :alt="product.title"
-              class="w-full h-96 object-cover rounded-2xl"
+              class="w-full h-96 object-cover rounded-2xl transition-transform duration-500 hover:scale-105 cursor-zoom-in"
               @error="handleImageError"
             />
           </div>
@@ -49,13 +49,13 @@
               :key="index"
               @click="selectedImage = image"
               :class="[
-                'relative rounded-lg border-2 overflow-hidden transition',
+                'relative rounded-lg border-2 overflow-hidden transition-all duration-300 hover:scale-105',
                 selectedImage === image
-                  ? 'border-brand-600 shadow-lg'
-                  : 'border-slate-200 hover:border-slate-300'
+                  ? 'border-brand-600 shadow-lg ring-2 ring-brand-100'
+                  : 'border-slate-200 hover:border-slate-300 hover:shadow-md'
               ]"
             >
-              <img :src="image" :alt="`View ${index + 1}`" class="w-full h-20 object-cover" />
+              <img :src="image" :alt="`View ${index + 1}`" class="w-full h-20 object-cover transition-transform duration-300 hover:scale-110" />
             </button>
           </div>
         </section>
@@ -154,13 +154,13 @@
             <button
               @click="handleAddToCart"
               :disabled="product.stock <= 0"
-              class="w-full rounded-lg bg-brand-600 px-6 py-3 text-lg font-semibold text-white transition hover:bg-brand-700 active:scale-95 disabled:bg-slate-300 disabled:cursor-not-allowed"
+              class="w-full rounded-lg bg-brand-600 px-6 py-3 text-lg font-semibold text-white transition-all duration-300 hover:bg-brand-700 hover:shadow-lg active:scale-95 disabled:bg-slate-300 disabled:cursor-not-allowed transform"
             >
               {{ product.stock > 0 ? 'Add to Cart' : 'Out of Stock' }}
             </button>
 
             <!-- Wishlist Button -->
-            <button class="w-full rounded-lg border-2 border-slate-200 px-6 py-3 font-semibold text-slate-700 transition hover:border-brand-600 hover:text-brand-600">
+            <button class="w-full rounded-lg border-2 border-slate-200 px-6 py-3 font-semibold text-slate-700 transition-all duration-300 hover:border-brand-600 hover:text-brand-600 hover:shadow-md active:scale-95 transform">
               ♡ Add to Wishlist
             </button>
           </div>

@@ -25,16 +25,16 @@
           <div
             v-for="item in items"
             :key="item.id"
-            class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm flex gap-4"
+            class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm flex gap-4 transition-all duration-300 hover:shadow-md hover:border-slate-300"
           >
-            <img :src="item.thumbnail" :alt="item.title" class="h-24 w-24 rounded-lg object-cover" />
+            <img :src="item.thumbnail" :alt="item.title" class="h-24 w-24 rounded-lg object-cover transition-transform duration-300 hover:scale-105" />
             <div class="flex-1">
               <h3 class="text-sm font-semibold text-slate-900">{{ item.title }}</h3>
               <p class="text-sm text-slate-600 mt-1">${{ item.price.toFixed(2) }}</p>
             </div>
             <button
               @click="removeFromCart(item.id)"
-              class="self-center rounded-lg bg-red-100 px-3 py-2 text-xs font-medium text-red-700 hover:bg-red-200 transition"
+              class="self-center rounded-lg bg-red-100 px-3 py-2 text-xs font-medium text-red-700 transition-all duration-300 hover:bg-red-200 hover:shadow-md active:scale-95"
             >
               Remove
             </button>
@@ -65,7 +65,7 @@
         </div>
         <button
           :disabled="items.length === 0"
-          class="mt-6 w-full rounded-lg bg-brand-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-700 disabled:bg-slate-300 disabled:cursor-not-allowed"
+          class="mt-6 w-full rounded-lg bg-brand-600 px-4 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-brand-700 hover:shadow-lg active:scale-95 disabled:bg-slate-300 disabled:cursor-not-allowed transform"
         >
           Checkout
         </button>

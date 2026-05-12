@@ -2,15 +2,15 @@
   <header class="sticky top-0 z-50 border-b border-slate-200 bg-white shadow-sm">
     <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
       <!-- Logo -->
-      <router-link to="/" class="flex items-center gap-2 flex-shrink-0">
-        <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600">
-          <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <router-link to="/" class="flex items-center gap-2 flex-shrink-0 group">
+        <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 transition-all duration-300 group-hover:bg-brand-700 group-hover:scale-105">
+          <svg class="h-5 w-5 text-white transition-transform duration-300 group-hover:rotate-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="9" cy="21" r="1"></circle>
             <circle cx="20" cy="21" r="1"></circle>
             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
           </svg>
         </div>
-        <span class="hidden sm:inline text-xl font-bold text-slate-900">ShopHub</span>
+        <span class="hidden sm:inline text-xl font-bold text-slate-900 transition-colors duration-300 group-hover:text-brand-600">ShopHub</span>
       </router-link>
 
       <!-- Search Bar (Desktop) -->
@@ -20,11 +20,11 @@
             v-model="searchQuery"
             type="search"
             placeholder="Search products..."
-            class="w-full rounded-lg border border-slate-300 bg-slate-50 px-4 py-2 pl-10 text-sm placeholder-slate-500 outline-none transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-100"
+            class="w-full rounded-lg border border-slate-300 bg-slate-50 px-4 py-2 pl-10 text-sm placeholder-slate-500 outline-none transition-all duration-300 focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-100 focus:shadow-lg"
             @keydown.enter="handleSearch"
           />
           <svg
-            class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+            class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 transition-colors duration-300"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -50,23 +50,23 @@
         <!-- Cart Icon -->
         <router-link
           to="/cart"
-          class="relative p-2 rounded-lg hover:bg-slate-100 transition group"
+          class="relative p-2 rounded-lg hover:bg-slate-100 transition-all duration-300 group hover:scale-105"
           aria-label="Shopping cart"
         >
-          <svg class="h-5 w-5 text-slate-600 group-hover:text-brand-600 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="h-5 w-5 text-slate-600 group-hover:text-brand-600 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
           </svg>
-          <span v-if="cartCount > 0" class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+          <span v-if="cartCount > 0" class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white transition-all duration-300 group-hover:scale-110 group-hover:bg-red-600">
             {{ cartCount }}
           </span>
         </router-link>
 
         <!-- Profile/Login Button -->
         <button
-          class="hidden sm:flex items-center gap-2 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:border-slate-400"
+          class="hidden sm:flex items-center gap-2 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition-all duration-300 hover:bg-slate-50 hover:border-slate-400 hover:shadow-md active:scale-95"
           @click="isProfileOpen = !isProfileOpen"
         >
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="h-4 w-4 transition-transform duration-300 hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
           </svg>
           <span class="hidden md:inline">Account</span>
@@ -74,11 +74,11 @@
 
         <!-- Mobile Menu Button -->
         <button
-          class="sm:hidden p-2 rounded-lg hover:bg-slate-100 transition"
+          class="sm:hidden p-2 rounded-lg hover:bg-slate-100 transition-all duration-300 hover:scale-105"
           @click="isMobileMenuOpen = !isMobileMenuOpen"
           aria-label="Menu"
         >
-          <svg class="h-5 w-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="h-5 w-5 text-slate-600 transition-transform duration-300" :class="{ 'rotate-90': isMobileMenuOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
         </button>
@@ -86,18 +86,37 @@
     </div>
 
     <!-- Mobile Search Bar -->
-    <div v-if="showMobileSearch" class="border-t border-slate-200 bg-slate-50 px-4 py-3 md:hidden">
+    <div v-if="showMobileSearch" class="border-t border-slate-200 bg-slate-50 px-4 py-3 md:hidden transition-all duration-300 ease-in-out">
       <input
         v-model="searchQuery"
         type="search"
         placeholder="Search products..."
-        class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm placeholder-slate-500 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+        class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm placeholder-slate-500 outline-none transition-all duration-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 focus:shadow-lg"
         @keydown.enter="handleSearch"
       />
     </div>
 
     <!-- Mobile Menu -->
-    <nav v-if="isMobileMenuOpen" class="border-t border-slate-200 bg-white px-4 py-4 sm:hidden space-y-2">
+    <nav v-if="isMobileMenuOpen" class="border-t border-slate-200 bg-white px-4 py-4 sm:hidden space-y-2 transition-all duration-300 ease-in-out">
+      <a
+        href="#"
+        class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-all duration-300 hover:bg-slate-100 hover:text-brand-600"
+      >
+        Home
+      </a>
+      <a
+        href="#"
+        class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-all duration-300 hover:bg-slate-100 hover:text-brand-600"
+      >
+        Categories
+      </a>
+      <a
+        href="#"
+        class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-all duration-300 hover:bg-slate-100 hover:text-brand-600"
+      >
+        About
+      </a>
+    </nav>
       <router-link
         to="/"
         class="block rounded-lg px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 transition"

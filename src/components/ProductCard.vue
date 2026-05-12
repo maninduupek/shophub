@@ -1,7 +1,7 @@
 <template>
-  <article class="group relative rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300">
+  <article class="group relative rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300 cursor-pointer">
     <!-- Discount Badge -->
-    <div v-if="discount > 0" class="absolute -top-2 -right-2 z-10 rounded-full bg-red-500 px-3 py-1 text-xs font-bold text-white shadow-lg">
+    <div v-if="discount > 0" class="absolute -top-2 -right-2 z-10 rounded-full bg-red-500 px-3 py-1 text-xs font-bold text-white shadow-lg transition-all duration-300 group-hover:scale-110">
       -{{ discount }}%
     </div>
 
@@ -10,18 +10,22 @@
       <img
         :src="image"
         :alt="title"
-        class="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+        class="h-48 w-full object-cover transition-all duration-500 group-hover:scale-110"
         @error="handleImageError"
       />
       <!-- Overlay on hover -->
       <div class="absolute inset-0 bg-black bg-opacity-0 transition-all duration-300 group-hover:bg-opacity-10"></div>
+      <!-- Quick view overlay -->
+      <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 transition-all duration-300 group-hover:bg-opacity-20">
+        <span class="text-white font-medium opacity-0 transition-opacity duration-300 group-hover:opacity-100">Quick View</span>
+      </div>
     </router-link>
 
     <!-- Product Info -->
     <div class="mt-4 space-y-3">
       <!-- Title - Clickable Link to Detail Page -->
-      <router-link :to="`/product/${productId}`" class="block hover:text-brand-600 transition-colors">
-        <h3 class="text-lg font-semibold text-slate-900 line-clamp-2 leading-tight group-hover:text-brand-600 transition-colors">
+      <router-link :to="`/product/${productId}`" class="block hover:text-brand-600 transition-colors duration-300">
+        <h3 class="text-lg font-semibold text-slate-900 line-clamp-2 leading-tight group-hover:text-brand-600 transition-colors duration-300">
           {{ title }}
         </h3>
       </router-link>
@@ -33,7 +37,7 @@
             v-for="star in 5"
             :key="star"
             :class="[
-              'w-4 h-4',
+              'w-4 h-4 transition-colors duration-300',
               star <= Math.floor(rating)
                 ? 'text-yellow-400 fill-current'
                 : star - 0.5 <= rating
@@ -58,7 +62,7 @@
 
       <!-- Action Button -->
       <button
-        class="w-full rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-brand-700 hover:shadow-md active:scale-95"
+        class="w-full rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:bg-brand-700 hover:shadow-lg active:scale-95 transform"
         @click.stop="$emit('add-to-cart')"
       >
         Add to Cart
