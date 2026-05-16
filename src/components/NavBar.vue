@@ -98,41 +98,22 @@
 
     <!-- Mobile Menu -->
     <nav v-if="isMobileMenuOpen" class="border-t border-slate-200 bg-white px-4 py-4 sm:hidden space-y-2 transition-all duration-300 ease-in-out">
-      <a
-        href="#"
-        class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-all duration-300 hover:bg-slate-100 hover:text-brand-600"
-      >
-        Home
-      </a>
-      <a
-        href="#"
-        class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-all duration-300 hover:bg-slate-100 hover:text-brand-600"
-      >
-        Categories
-      </a>
-      <a
-        href="#"
-        class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-all duration-300 hover:bg-slate-100 hover:text-brand-600"
-      >
-        About
-      </a>
-    </nav>
       <router-link
         to="/"
-        class="block rounded-lg px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 transition"
+        class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-all duration-300 hover:bg-slate-100 hover:text-brand-600"
         @click="isMobileMenuOpen = false"
       >
         Home
       </router-link>
       <router-link
         to="/cart"
-        class="block rounded-lg px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 transition"
+        class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-all duration-300 hover:bg-slate-100 hover:text-brand-600"
         @click="isMobileMenuOpen = false"
       >
         Cart
       </router-link>
       <button
-        class="w-full rounded-lg px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 transition text-left"
+        class="w-full rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 transition-all duration-300 text-left"
         @click="isProfileOpen = !isProfileOpen; isMobileMenuOpen = false"
       >
         Account
