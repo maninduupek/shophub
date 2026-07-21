@@ -6,7 +6,7 @@
     </div>
 
     <!-- Product Image - Clickable -->
-    <router-link :to="`/product/${productId}`" class="block">
+    <router-link :to="resolvedLink" class="block">
       <div class="aspect-square mb-4 overflow-hidden rounded-lg bg-gray-100">
         <img
           :src="image"
@@ -18,7 +18,7 @@
     </router-link>
 
     <!-- Product Title - Clickable -->
-    <router-link :to="`/product/${productId}`" class="block">
+    <router-link :to="resolvedLink" class="block">
       <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-blue-600 transition-colors duration-300">
         {{ title }}
       </h3>
@@ -65,6 +65,8 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
+
 interface Props {
   productId: number
   title: string
@@ -73,17 +75,21 @@ interface Props {
   rating?: number
   discount?: number
   originalPrice?: number
+  linkTo?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   rating: 0,
   discount: 0,
-  originalPrice: undefined
+  originalPrice: undefined,
+  linkTo: undefined
 })
 
 const emit = defineEmits<{
   'add-to-cart': []
 }>()
+
+const resolvedLink = computed(() => props.linkTo ?? `/product/${props.productId}`)
 
 const handleImageError = (event: Event) => {
   const img = event.target as HTMLImageElement
