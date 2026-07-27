@@ -1,5 +1,5 @@
 import { computed, ref } from 'vue';
-import { fetchProducts as fetchProductsApi, searchProducts as searchProductsApi } from '../services/api';
+import { fetchProducts as fetchProductsApi } from '../services/api';
 /**
  * Composable for fetching and managing products
  * Handles loading, error states, and provides search/filter functionality
@@ -27,28 +27,6 @@ export function useProducts() {
         }
     };
     /**
-     * Search products by query string
-     */
-    const searchProducts = async (query) => {
-        if (!query.trim()) {
-            await fetchProducts();
-            return;
-        }
-        isLoading.value = true;
-        error.value = null;
-        try {
-            const response = await searchProductsApi(query);
-            products.value = response.products;
-        }
-        catch (err) {
-            error.value = err instanceof Error ? err.message : 'Search failed';
-            console.error('Error searching products:', err);
-        }
-        finally {
-            isLoading.value = false;
-        }
-    };
-    /**
      * Get unique categories from loaded products
      */
     const categories = computed(() => {
@@ -64,7 +42,6 @@ export function useProducts() {
         isLoading,
         error,
         fetchProducts,
-        searchProducts,
         categories,
         totalProducts
     };

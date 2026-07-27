@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
-import type { Product, ProductListResponse } from '../types/product'
 import type { Ref } from 'vue'
-import { fetchProducts as fetchProductsApi, searchProducts as searchProductsApi } from '../services/api'
+import type { Product, ProductListResponse } from '../types/product'
+import { fetchProducts as fetchProductsApi } from '../services/api'
 
 /**
  * Composable for fetching and managing products
@@ -31,29 +31,6 @@ export function useProducts() {
   }
 
   /**
-   * Search products by query string
-   */
-  const searchProducts = async (query: string) => {
-    if (!query.trim()) {
-      await fetchProducts()
-      return
-    }
-
-    isLoading.value = true
-    error.value = null
-
-    try {
-      const response: ProductListResponse = await searchProductsApi(query)
-      products.value = response.products
-    } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Search failed'
-      console.error('Error searching products:', err)
-    } finally {
-      isLoading.value = false
-    }
-  }
-
-  /**
    * Get unique categories from loaded products
    */
   const categories = computed(() => {
@@ -71,7 +48,6 @@ export function useProducts() {
     isLoading,
     error,
     fetchProducts,
-    searchProducts,
     categories,
     totalProducts
   }
@@ -87,7 +63,7 @@ export function useFilteredProducts(
 ) {
   return computed(() => {
     const normalizedTerm = searchTerm.value.trim().toLowerCase()
-    return products.value.filter((product) => {
+    return products.value.filter((product: Product) => {
       const matchesTerm = normalizedTerm
         ? [product.title, product.description, product.brand].some((value) =>
             value.toLowerCase().includes(normalizedTerm)

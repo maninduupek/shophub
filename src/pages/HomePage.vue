@@ -92,7 +92,7 @@ const props = withDefaults(defineProps<Props>(), {
   globalSearchTerm: ''
 })
 
-const { products, isLoading, error, fetchProducts, searchProducts, categories } = useProducts()
+const { products, isLoading, error, fetchProducts, categories } = useProducts()
 const cartStore = useCartStore()
 const localSearchTerm = ref('')
 const selectedCategory = ref('')
@@ -101,32 +101,27 @@ const maxPrice = ref(1000)
 const minRating = ref(0)
 const inStockOnly = ref(false)
 
-// Watch for global search term changes and perform API search
-watch(() => props.globalSearchTerm, async (newTerm) => {
-  if (newTerm) {
-    await searchProducts(newTerm)
-    localSearchTerm.value = newTerm
-  } else {
-    await fetchProducts()
-    localSearchTerm.value = ''
-  }
+// Watch for global search term changes and apply local filtering
+watch(() => props.globalSearchTerm, (newTerm) => {
+  localSearchTerm.value = newTerm || ''
 })
 
 const filteredProducts = computed(() => {
+  const normalizedTerm = localSearchTerm.value.trim().toLowerCase()
+
   return products.value.filter((product) => {
-    // Category filter
     const categoryMatch = !selectedCategory.value || product.category === selectedCategory.value
-    
-    // Price filter
     const priceMatch = product.price >= minPrice.value && product.price <= maxPrice.value
-    
-    // Rating filter
     const ratingMatch = product.rating >= minRating.value
-    
-    // Stock filter
     const stockMatch = !inStockOnly.value || product.stock > 0
-    
-    return categoryMatch && priceMatch && ratingMatch && stockMatch
+
+    const searchMatch = normalizedTerm
+      ? [product.title, product.description, product.brand].some((value) =>
+          value.toLowerCase().includes(normalizedTerm)
+        )
+      : true
+
+    return categoryMatch && priceMatch && ratingMatch && stockMatch && searchMatch
   })
 })
 
@@ -135,13 +130,8 @@ const handleAddToCart = (product: Product) => {
   console.log(`Added ${product.title} to cart`)
 }
 
-const handleFilterBarSearch = async (term: string) => {
+const handleFilterBarSearch = (term: string) => {
   localSearchTerm.value = term
-  if (term.trim()) {
-    await searchProducts(term)
-  } else {
-    await fetchProducts()
-  }
 }
 
 onMounted(() => {
