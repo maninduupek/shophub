@@ -1,144 +1,130 @@
 <template>
   <header class="sticky top-0 z-50 border-b border-slate-200 bg-white shadow-sm">
-    <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
-      <!-- Logo -->
-      <router-link to="/" class="flex items-center gap-2 flex-shrink-0 group">
-        <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 transition-all duration-300 group-hover:bg-brand-700 group-hover:scale-105">
-          <svg class="h-5 w-5 text-white transition-transform duration-300 group-hover:rotate-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="9" cy="21" r="1"></circle>
-            <circle cx="20" cy="21" r="1"></circle>
-            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-          </svg>
-        </div>
-        <span class="hidden sm:inline text-xl font-bold text-slate-900 transition-colors duration-300 group-hover:text-brand-600">ShopHub</span>
-      </router-link>
+    <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
+      <div class="flex items-center gap-3 flex-1 min-w-0">
+        <router-link to="/" class="flex items-center gap-2 flex-shrink-0">
+          <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-900 text-white shadow-sm transition duration-300 hover:bg-slate-800">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="9" cy="21" r="1" />
+              <circle cx="20" cy="21" r="1" />
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+            </svg>
+          </div>
+          <span class="hidden sm:inline text-lg font-semibold text-slate-900">ShopHub</span>
+        </router-link>
 
-      <!-- Search Bar (Desktop) -->
-      <div class="hidden md:flex flex-1 max-w-sm items-center">
-        <div class="relative w-full">
-          <input
-            v-model="searchQuery"
-            type="search"
-            placeholder="Search products..."
-            class="w-full rounded-lg border border-slate-300 bg-slate-50 px-4 py-2 pl-10 text-sm placeholder-slate-500 outline-none transition-all duration-300 focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-100 focus:shadow-lg"
-            @keydown.enter="handleSearch"
-          />
-          <svg
-            class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 transition-colors duration-300"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-          </svg>
+        <div class="flex-1 min-w-0 md:max-w-xl">
+          <div class="relative hidden md:block">
+            <span class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-slate-400">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </span>
+            <input
+              v-model="searchQuery"
+              type="search"
+              placeholder="Search products..."
+              class="w-full rounded-full border border-slate-200 bg-slate-50 py-2 pl-10 pr-4 text-sm text-slate-900 placeholder-slate-500 outline-none transition duration-300 focus:border-slate-900 focus:bg-white focus:ring-2 focus:ring-slate-100"
+              @keydown.enter="handleSearch"
+            />
+          </div>
         </div>
       </div>
 
-      <!-- Right Section -->
-      <div class="flex items-center gap-2 sm:gap-4">
-        <!-- Search Icon (Mobile) -->
+      <div class="flex items-center gap-2">
         <button
-          class="md:hidden p-2 rounded-lg hover:bg-slate-100 transition"
-          aria-label="Search"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 md:hidden"
           @click="showMobileSearch = !showMobileSearch"
+          aria-label="Toggle search"
         >
-          <svg class="h-5 w-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </button>
 
-        <!-- Cart Icon -->
         <router-link
           to="/cart"
-          class="relative p-2 rounded-lg hover:bg-slate-100 transition-all duration-300 group hover:scale-105"
-          aria-label="Shopping cart"
+          class="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
+          aria-label="View cart"
         >
-          <svg class="h-5 w-5 text-slate-600 group-hover:text-brand-600 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
-          <span v-if="cartCount > 0" class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white transition-all duration-300 group-hover:scale-110 group-hover:bg-red-600">
+          <span v-if="cartCount > 0" class="absolute -top-1 -right-1 inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-red-500 px-1.5 text-[0.65rem] font-semibold text-white">
             {{ cartCount }}
           </span>
         </router-link>
 
-        <!-- Profile/Login Button -->
         <button
-          class="hidden sm:flex items-center gap-2 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition-all duration-300 hover:bg-slate-50 hover:border-slate-400 hover:shadow-md active:scale-95"
-          @click="isProfileOpen = !isProfileOpen"
+          class="hidden md:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+          @click="toggleProfile"
+          aria-label="Account menu"
         >
-          <svg class="h-4 w-4 transition-transform duration-300 hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          <svg class="h-4 w-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
           </svg>
-          <span class="hidden md:inline">Account</span>
+          Account
         </button>
 
-        <!-- Mobile Menu Button -->
         <button
-          class="sm:hidden p-2 rounded-lg hover:bg-slate-100 transition-all duration-300 hover:scale-105"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 md:hidden"
           @click="isMobileMenuOpen = !isMobileMenuOpen"
-          aria-label="Menu"
+          aria-label="Open menu"
         >
-          <svg class="h-5 w-5 text-slate-600 transition-transform duration-300" :class="{ 'rotate-90': isMobileMenuOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          <svg class="h-5 w-5" :class="{ 'rotate-90': isMobileMenuOpen }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
       </div>
-    </div>
 
-    <!-- Mobile Search Bar -->
-    <div v-if="showMobileSearch" class="border-t border-slate-200 bg-slate-50 px-4 py-3 md:hidden transition-all duration-300 ease-in-out">
-      <input
-        v-model="searchQuery"
-        type="search"
-        placeholder="Search products..."
-        class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm placeholder-slate-500 outline-none transition-all duration-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 focus:shadow-lg"
-        @keydown.enter="handleSearch"
-      />
-    </div>
-
-    <!-- Mobile Menu -->
-    <nav v-if="isMobileMenuOpen" class="border-t border-slate-200 bg-white px-4 py-4 sm:hidden space-y-2 transition-all duration-300 ease-in-out">
-      <router-link
-        to="/"
-        class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-all duration-300 hover:bg-slate-100 hover:text-brand-600"
-        @click="isMobileMenuOpen = false"
-      >
-        Home
-      </router-link>
-      <router-link
-        to="/cart"
-        class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-all duration-300 hover:bg-slate-100 hover:text-brand-600"
-        @click="isMobileMenuOpen = false"
-      >
-        Cart
-      </router-link>
-      <button
-        class="w-full rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 transition-all duration-300 text-left"
-        @click="isProfileOpen = !isProfileOpen; isMobileMenuOpen = false"
-      >
-        Account
-      </button>
-    </nav>
-
-    <!-- Profile Dropdown -->
-    <div v-if="isProfileOpen" class="absolute right-4 top-full mt-2 w-48 rounded-lg border border-slate-200 bg-white shadow-lg">
-      <div class="px-4 py-3 border-b border-slate-200">
-        <p class="text-sm text-slate-600">Guest User</p>
+      <div v-if="showMobileSearch" class="w-full pt-3 md:hidden">
+        <div class="relative">
+          <span class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-slate-400">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </span>
+          <input
+            v-model="searchQuery"
+            type="search"
+            placeholder="Search products..."
+            class="w-full rounded-full border border-slate-200 bg-white py-2 pl-10 pr-4 text-sm text-slate-900 placeholder-slate-500 outline-none transition duration-300 focus:border-slate-900 focus:ring-2 focus:ring-slate-100"
+            @keydown.enter="handleSearch"
+          />
+        </div>
       </div>
-      <nav class="space-y-1 px-2 py-2">
-        <button
-          class="w-full text-left rounded-lg px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 transition"
-          @click="handleLogin"
+
+      <nav v-if="isMobileMenuOpen" class="w-full space-y-2 border-t border-slate-200 pt-3 md:hidden">
+        <router-link
+          to="/"
+          class="block rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+          @click="isMobileMenuOpen = false"
         >
-          Sign In
-        </button>
-        <button
-          class="w-full text-left rounded-lg px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 transition"
-          @click="handleLogout"
+          Home
+        </router-link>
+        <router-link
+          to="/cart"
+          class="block rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+          @click="isMobileMenuOpen = false"
         >
-          Sign Up
+          Cart
+        </router-link>
+        <button
+          class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+          @click="toggleProfile(); isMobileMenuOpen = false"
+        >
+          Account
         </button>
       </nav>
+
+      <div v-if="isProfileOpen" class="absolute right-4 top-full z-20 mt-2 w-48 rounded-2xl border border-slate-200 bg-white shadow-lg">
+        <div class="px-4 py-3 border-b border-slate-200">
+          <p class="text-sm text-slate-600">Guest User</p>
+        </div>
+        <button class="w-full px-4 py-3 text-left text-sm text-slate-700 hover:bg-slate-50" @click="handleLogin">Sign In</button>
+        <button class="w-full px-4 py-3 text-left text-sm text-slate-700 hover:bg-slate-50" @click="handleLogout">Sign Up</button>
+      </div>
     </div>
   </header>
 </template>
@@ -153,18 +139,23 @@ const emit = defineEmits<{
 
 const cartStore = useCartStore()
 const searchQuery = ref('')
-const isMobileMenuOpen = ref(false)
 const showMobileSearch = ref(false)
+const isMobileMenuOpen = ref(false)
 const isProfileOpen = ref(false)
 
 const cartCount = computed(() => cartStore.itemCount)
 
 const handleSearch = () => {
-  if (searchQuery.value.trim()) {
-    emit('search', searchQuery.value.trim())
+  const query = searchQuery.value.trim()
+  if (query) {
+    emit('search', query)
     searchQuery.value = ''
     showMobileSearch.value = false
   }
+}
+
+const toggleProfile = () => {
+  isProfileOpen.value = !isProfileOpen.value
 }
 
 const handleLogin = () => {
