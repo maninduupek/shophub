@@ -1,17 +1,15 @@
 <template>
-  <article class="group h-full overflow-hidden rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl relative">
-    <!-- Discount Badge -->
-    <div v-if="discount > 0" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full z-10">
-      -{{ discount }}%
-    </div>
-
+  <article class="h-full overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 relative">
     <!-- Product Image - Clickable -->
     <router-link :to="resolvedLink" class="block">
-      <div class="aspect-square mb-4 overflow-hidden rounded-lg bg-gray-100">
+      <div class="relative aspect-square mb-4 overflow-hidden rounded-lg bg-gray-100">
+        <div class="absolute top-2 right-2 z-10 rounded-bl-lg bg-red-500 px-2 py-1 text-xs font-bold text-white">
+          -{{ discount }}%
+        </div>
         <img
           :src="image"
           :alt="title"
-          class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+          class="w-full h-full object-cover"
           @error="handleImageError"
         />
       </div>
@@ -19,7 +17,8 @@
 
     <!-- Product Title - Clickable -->
     <router-link :to="resolvedLink" class="block">
-      <h3 class="text-lg font-semibold text-slate-900 mb-3 line-clamp-2 transition-colors duration-300 group-hover:text-brand-700">
+      <h3 class="mt-3 text-lg font-semibold text-slate-900 line-clamp-2">
+        {{ title }}
       </h3>
     </router-link>
 
@@ -55,7 +54,7 @@
 
     <!-- Add to Cart Button -->
     <button
-      class="w-full rounded-2xl bg-brand-600 py-3 px-4 text-sm font-semibold text-white shadow-sm transition duration-300 hover:bg-brand-700 hover:shadow-md focus:outline-none"
+      class="w-full rounded-2xl bg-brand-600 py-3 px-4 text-sm font-semibold text-white focus:outline-none"
       @click.stop="$emit('add-to-cart')"
     >
       Add to Cart

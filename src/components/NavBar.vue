@@ -1,9 +1,9 @@
 <template>
-  <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-xl shadow-sm">
-    <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
+  <header class="sticky top-0 z-50 border-b border-slate-200 bg-white">
+    <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
       <div class="flex items-center gap-3 flex-1 min-w-0">
         <router-link to="/" class="flex items-center gap-2 flex-shrink-0">
-          <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-900 text-white shadow-sm transition duration-300 hover:bg-slate-800">
+          <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-900 text-white">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="9" cy="21" r="1" />
               <circle cx="20" cy="21" r="1" />
@@ -24,7 +24,7 @@
               v-model="searchQuery"
               type="search"
               placeholder="Search products..."
-              class="w-full rounded-full border border-slate-200 bg-white py-2 pl-10 pr-4 text-sm text-slate-900 placeholder-slate-500 outline-none shadow-sm transition duration-300 focus:border-brand-600 focus:ring-2 focus:ring-brand-100"
+              class="w-full rounded-full border border-slate-200 bg-white py-2 pl-10 pr-4 text-sm text-slate-900 placeholder-slate-500 outline-none focus:border-slate-900"
               @keydown.enter="handleSearch"
             />
           </div>
@@ -33,7 +33,7 @@
 
       <div class="flex items-center gap-2">
         <button
-          class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 md:hidden"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 md:hidden"
           @click="showMobileSearch = !showMobileSearch"
           aria-label="Toggle search"
         >
@@ -44,7 +44,7 @@
 
         <router-link
           to="/cart"
-          class="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition duration-300 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900"
+          class="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600"
           aria-label="View cart"
         >
           <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -56,7 +56,7 @@
         </router-link>
 
         <button
-          class="hidden md:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition duration-300 hover:border-slate-300 hover:bg-slate-50"
+          class="hidden md:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700"
           @click="toggleProfile"
           aria-label="Account menu"
         >
@@ -68,7 +68,7 @@
         </button>
 
         <button
-          class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 md:hidden"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 md:hidden"
           @click="isMobileMenuOpen = !isMobileMenuOpen"
           aria-label="Open menu"
         >
@@ -89,7 +89,7 @@
             v-model="searchQuery"
             type="search"
             placeholder="Search products..."
-            class="w-full rounded-full border border-slate-200 bg-white py-2 pl-10 pr-4 text-sm text-slate-900 placeholder-slate-500 outline-none transition duration-300 focus:border-slate-900 focus:ring-2 focus:ring-slate-100"
+            class="w-full rounded-full border border-slate-200 bg-white py-2 pl-10 pr-4 text-sm text-slate-900 placeholder-slate-500 outline-none focus:border-slate-900"
             @keydown.enter="handleSearch"
           />
         </div>
@@ -98,32 +98,37 @@
       <nav v-if="isMobileMenuOpen" class="w-full space-y-2 border-t border-slate-200 pt-3 md:hidden">
         <router-link
           to="/"
-          class="block rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+          class="block rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700"
           @click="isMobileMenuOpen = false"
         >
           Home
         </router-link>
         <router-link
           to="/cart"
-          class="block rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+          class="block rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700"
           @click="isMobileMenuOpen = false"
         >
           Cart
         </router-link>
         <button
-          class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+          class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-medium text-slate-700"
           @click="toggleProfile(); isMobileMenuOpen = false"
         >
           Account
         </button>
       </nav>
 
-      <div v-if="isProfileOpen" class="absolute right-4 top-full z-20 mt-2 w-48 rounded-2xl border border-slate-200 bg-white shadow-lg">
+      <div v-if="isProfileOpen" class="absolute right-4 top-full z-20 mt-2 w-48 rounded-2xl border border-slate-200 bg-white">
         <div class="px-4 py-3 border-b border-slate-200">
-          <p class="text-sm text-slate-600">Guest User</p>
+          <p class="text-sm text-slate-600">{{ displayName }}</p>
         </div>
-        <button class="w-full px-4 py-3 text-left text-sm text-slate-700 hover:bg-slate-50" @click="handleLogin">Sign In</button>
-        <button class="w-full px-4 py-3 text-left text-sm text-slate-700 hover:bg-slate-50" @click="handleLogout">Sign Up</button>
+        <template v-if="isAuthenticated">
+          <button class="w-full px-4 py-3 text-left text-sm text-slate-700" @click="handleLogout">Logout</button>
+        </template>
+        <template v-else>
+          <button class="w-full px-4 py-3 text-left text-sm text-slate-700" @click="handleLogin">Sign In</button>
+          <button class="w-full px-4 py-3 text-left text-sm text-slate-700" @click="handleSignUp">Sign Up</button>
+        </template>
       </div>
     </div>
   </header>
@@ -131,19 +136,25 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useCartStore } from '../store/cart'
+import { useAuthStore } from '../store/auth'
 
 const emit = defineEmits<{
   search: [query: string]
 }>()
 
+const router = useRouter()
 const cartStore = useCartStore()
+const authStore = useAuthStore()
 const searchQuery = ref('')
 const showMobileSearch = ref(false)
 const isMobileMenuOpen = ref(false)
 const isProfileOpen = ref(false)
 
 const cartCount = computed(() => cartStore.itemCount)
+const displayName = computed(() => authStore.displayName)
+const isAuthenticated = computed(() => authStore.isAuthenticated)
 
 const handleSearch = () => {
   const query = searchQuery.value.trim()
@@ -159,13 +170,19 @@ const toggleProfile = () => {
 }
 
 const handleLogin = () => {
-  console.log('Login')
   isProfileOpen.value = false
+  router.push('/signin')
+}
+
+const handleSignUp = () => {
+  isProfileOpen.value = false
+  router.push('/signup')
 }
 
 const handleLogout = () => {
-  console.log('Sign Up')
+  authStore.logout()
   isProfileOpen.value = false
+  router.push('/')
 }
 </script>
 

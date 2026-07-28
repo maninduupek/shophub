@@ -1,5 +1,5 @@
 <template>
-  <section class="mb-6 rounded-3xl border border-slate-200 bg-white p-5 shadow-lg transition duration-300 hover:-translate-y-0.5 hover:shadow-xl">
+  <section class="mb-4 rounded-3xl border border-slate-200 bg-white p-4">
     <div class="grid gap-4 sm:grid-cols-[1fr_auto] items-end">
       <div>
         <label class="mb-2 block text-sm font-medium text-slate-700">Search products</label>
@@ -7,7 +7,7 @@
           v-model="term"
           type="search"
           placeholder="Search by title or description"
-          class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+          class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-900 outline-none focus:border-slate-900"
         />
       </div>
       <div>
