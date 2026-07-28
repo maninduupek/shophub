@@ -1,6 +1,6 @@
 <template>
-  <section class="mb-6 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
-    <div class="grid gap-4 sm:grid-cols-[1fr_auto]">
+  <section class="mb-6 rounded-3xl border border-slate-200 bg-white p-5 shadow-lg transition duration-300 hover:-translate-y-0.5 hover:shadow-xl">
+    <div class="grid gap-4 sm:grid-cols-[1fr_auto] items-end">
       <div>
         <label class="mb-2 block text-sm font-medium text-slate-700">Search products</label>
         <input

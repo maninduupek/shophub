@@ -1,8 +1,8 @@
 <template>
   <div class="space-y-6">
-    <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-      <h1 class="text-2xl font-semibold text-slate-900">Shop the latest products</h1>
-      <p class="mt-2 text-slate-600">Browse a curated list of DummyJSON products with advanced filtering.</p>
+    <section class="rounded-3xl border border-slate-200 bg-gradient-to-r from-brand-50 via-white to-slate-50 p-6 shadow-sm">
+      <h1 class="text-3xl font-semibold text-slate-900">Shop the latest products</h1>
+      <p class="mt-3 text-slate-600 max-w-2xl">Browse a curated list of DummyJSON products with advanced filtering and smooth interactions.</p>
     </section>
 
     <FilterBar
@@ -31,7 +31,7 @@
 
       <!-- Products Section -->
       <section class="space-y-4">
-        <div class="flex items-center justify-between gap-4 rounded-3xl bg-white p-5 shadow-sm">
+        <div class="flex items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md">
           <div>
             <h2 class="text-lg font-semibold text-slate-900">Products</h2>
             <p class="mt-1 text-sm text-slate-600" v-if="!isLoading">

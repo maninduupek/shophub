@@ -1,5 +1,5 @@
 <template>
-  <header class="sticky top-0 z-50 border-b border-slate-200 bg-white shadow-sm">
+  <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-xl shadow-sm">
     <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
       <div class="flex items-center gap-3 flex-1 min-w-0">
         <router-link to="/" class="flex items-center gap-2 flex-shrink-0">
@@ -24,7 +24,7 @@
               v-model="searchQuery"
               type="search"
               placeholder="Search products..."
-              class="w-full rounded-full border border-slate-200 bg-slate-50 py-2 pl-10 pr-4 text-sm text-slate-900 placeholder-slate-500 outline-none transition duration-300 focus:border-slate-900 focus:bg-white focus:ring-2 focus:ring-slate-100"
+              class="w-full rounded-full border border-slate-200 bg-white py-2 pl-10 pr-4 text-sm text-slate-900 placeholder-slate-500 outline-none shadow-sm transition duration-300 focus:border-brand-600 focus:ring-2 focus:ring-brand-100"
               @keydown.enter="handleSearch"
             />
           </div>
@@ -44,7 +44,7 @@
 
         <router-link
           to="/cart"
-          class="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
+          class="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition duration-300 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900"
           aria-label="View cart"
         >
           <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -56,7 +56,7 @@
         </router-link>
 
         <button
-          class="hidden md:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+          class="hidden md:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition duration-300 hover:border-slate-300 hover:bg-slate-50"
           @click="toggleProfile"
           aria-label="Account menu"
         >

@@ -1,7 +1,7 @@
 <template>
   <aside class="space-y-6">
     <!-- Filter Header -->
-    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:shadow-md">
+    <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
       <div class="flex items-center justify-between gap-4">
         <h2 class="text-lg font-semibold text-slate-900">Filters</h2>
         <button
