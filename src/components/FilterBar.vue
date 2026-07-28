@@ -12,12 +12,11 @@
       </div>
       <div>
         <label class="mb-2 block text-sm font-medium text-slate-700">Category</label>
-        <select v-model="category" class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100">
-          <option value="">All categories</option>
-          <option v-for="categoryOption in categories" :key="categoryOption" :value="categoryOption">
-            {{ categoryOption }}
-          </option>
-        </select>
+        <CategoryDropdown
+          :categories="categories"
+          :initialCategory="category"
+          @update:category="category = $event"
+        />
       </div>
     </div>
   </section>
@@ -25,6 +24,7 @@
 
 <script lang="ts" setup>
 import { defineEmits, defineProps, ref, watch } from 'vue'
+import CategoryDropdown from './CategoryDropdown.vue'
 
 const props = defineProps<{ categories: string[]; initialTerm: string; initialCategory: string }>()
 const emit = defineEmits<{

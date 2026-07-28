@@ -5,16 +5,13 @@
       <p class="mt-2 text-slate-600">Browse a curated list of DummyJSON products with advanced filtering.</p>
     </section>
 
-    <!-- Search Bar -->
-    <div class="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm transition-all duration-300 hover:shadow-md">
-      <input
-        v-model="localSearchTerm"
-        type="search"
-        placeholder="Search products..."
-        class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition-all duration-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 focus:shadow-lg"
-        @keydown.enter="handleFilterBarSearch(localSearchTerm)"
-      />
-    </div>
+    <FilterBar
+      :categories="categories"
+      :initial-term="localSearchTerm"
+      :initial-category="selectedCategory"
+      @update:term="localSearchTerm = $event"
+      @update:category="selectedCategory = $event"
+    />
 
     <!-- Two Column Layout: Sidebar + Products -->
     <div class="grid gap-6 lg:grid-cols-[280px_1fr]">
@@ -82,6 +79,7 @@ import { useProducts } from '../composables/useProducts'
 import { useCartStore } from '../store/cart'
 import type { Product } from '../types/product'
 import ProductCard from '../components/ProductCard.vue'
+import FilterBar from '../components/FilterBar.vue'
 import FilterSidebar from '../components/FilterSidebar.vue'
 
 interface Props {
